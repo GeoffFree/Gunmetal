@@ -11,38 +11,42 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private int[] waveEnemyCount;
     private int currentWave;
     [SerializeField] private float waveInterval;
-    private float waveTimer;
     [SerializeField] private float enemySpawnInterval;
 
     [SerializeField] private Transform player;
 
-    private List<Transform> enemyList = new();
+    private int currentEnemies;
+    [HideInInspector] public int deadEnemies;
 
-    public void Start()
+    void FixedUpdate()
     {
-        StartWave();
-    }
-
-    private void StartWave() {
-        if(waveTimer >= Time.time) {
-            waveTimer = waveInterval + Time.time;
-            StartCoroutine(WaveSpawn());
+        if (deadEnemies >= currentEnemies)
+        {
+            StartWave();
         }
     }
 
-    private void SpawnEnemy() {
+    private void StartWave()
+    {
+        currentEnemies = waveEnemyCount[currentWave];
+        deadEnemies = 0;
+        StartCoroutine(WaveSpawn());
+    }
+
+    private void SpawnEnemy()
+    {
         int randomSpawn = Random.Range(0, droneSpawns.Count());
         int randomDrone = Random.Range(0, drones.Count());
         GameObject newEnemy = Instantiate(drones[randomDrone], droneSpawns[randomSpawn].position, Quaternion.identity);
         newEnemy.GetComponent<Enemy>().player = player;
-        enemyList.Add(newEnemy.transform);
     }
 
     IEnumerator WaveSpawn() {
-        for(int i=0; i < waveEnemyCount[currentWave]; i++) {
+        yield return new WaitForSecondsRealtime(waveInterval);
+        for (int i = 0; i < waveEnemyCount[currentWave]; i++)
+        {
             yield return new WaitForSecondsRealtime(enemySpawnInterval);
             SpawnEnemy();
         }
-        currentWave += 1;
     }
 }

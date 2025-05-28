@@ -121,7 +121,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: -2
-  attackInterval: 0
+  attackInterval: 5
   attackDistance: 10
   player: {fileID: 0}
   gunOrigin: {fileID: 4155123142093086197}
+  minY: -1
+  maxY: 1
+  verticalSpeed: 1
