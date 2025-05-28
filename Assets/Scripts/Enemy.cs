@@ -4,17 +4,35 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] float speed = 2.0f;
+    public int health;
+    public bool destroyed;
+
+    [Header("Attacks")]
     public float attackInterval;
     private float attackTimer;
     public float attackDistance;
-    [HideInInspector] public Transform player; 
     [SerializeField] private Transform gunOrigin;
 
+    [Header("Movement")]
+    [HideInInspector] public Transform player; 
+    [SerializeField] private float speed = 2.0f;
+    [SerializeField] private float verticalSpeed = 1.0f;
     [SerializeField] private float minY;
     [SerializeField] private float maxY;
-    [SerializeField] private float verticalSpeed;
     private bool movingUp;
+
+    [Header("Audio")]
+    public AudioSource ambientSource;
+    public AudioSource generalSource;
+    public AudioClip chargingSFX;
+    public AudioClip fireSFX;
+    public AudioSource damageSource;
+    public AudioClip hitSFX;
+    public AudioClip destroyedSFX;
+
+    [Header("Other")]
+    public float deathTime; // How long after death will this despawn
+    private float deathTimer;
 
 
     void Start()
@@ -26,9 +44,34 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Movement();
+
+        if (destroyed && Time.time > deathTimer)
+        {
+            Death();
+        }
+    }
+
+    public void Damage(int damage)
+    {
+        health -= damage;
+        if (health < 0)
+        {
+            destroyed = true;
+            deathTimer = Time.time + deathTime;
+        }
+    }
+
+    private void Death()
+    {
+        Destroy(this.gameObject);
+    }
+
+    private void Movement()
+    {
         if (Vector3.Distance(transform.position, player.position) < attackDistance)
         {
-        Vector3 direction = player.position - gunOrigin.position;
+            Vector3 direction = player.position - gunOrigin.position;
             Debug.DrawRay(gunOrigin.position, direction);
             if (Time.time > attackTimer)
             {
@@ -58,11 +101,8 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Death() {
-        Destroy(this.gameObject);
-    }
-
-    private void Attack() {
+    private void Attack()
+    {
         Vector3 direction = player.position - gunOrigin.position;
         Physics.Raycast(gunOrigin.position, direction, out RaycastHit hit);
         if (hit.transform.CompareTag("Shield"))

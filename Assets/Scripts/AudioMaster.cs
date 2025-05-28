@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class AudioMaster : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public AudioSource soundtrack;
+    public AudioSource player;
+    public AudioSource background;
+
+    public void playSoundtrack(AudioClip song)
     {
-        
+        soundtrack.clip = song;
+        soundtrack.Play();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void playPlayer(AudioClip effect)
     {
-        
+        player.clip = effect;
+        player.Play();
+    }
+
+    public void playBackground(AudioClip bg)
+    {
+        background.clip = bg;
+        background.Play();
     }
 }

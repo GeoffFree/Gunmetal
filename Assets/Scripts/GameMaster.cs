@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[System.Serializable]
+public struct Wave
+{
+    public int enemyCount;
+    public Transform[] spawnPoints;
+}
+
 public class GameMaster : MonoBehaviour
 {
-    [SerializeField] private Transform[] droneSpawns;
-    [SerializeField] private GameObject[] drones;
-
-    [SerializeField] private int[] waveEnemyCount;
+    [Header("Enemy Spawns")]
+    public Wave[] waves;
     private int currentWave;
+    private Transform[] currentSpawns;
     [SerializeField] private float waveInterval;
     [SerializeField] private float enemySpawnInterval;
-
-    [SerializeField] private Transform player;
-
     private int currentEnemies;
+    [SerializeField] private GameObject[] drones;
+    [SerializeField] private Transform player;
     [HideInInspector] public int deadEnemies;
 
     void FixedUpdate()
@@ -23,27 +28,29 @@ public class GameMaster : MonoBehaviour
         if (deadEnemies >= currentEnemies)
         {
             StartWave();
+            currentWave += 1;
         }
     }
 
     private void StartWave()
     {
-        currentEnemies = waveEnemyCount[currentWave];
+        currentEnemies = waves[currentWave].enemyCount;
+        currentSpawns = waves[currentWave].spawnPoints;
         deadEnemies = 0;
         StartCoroutine(WaveSpawn());
     }
 
     private void SpawnEnemy()
     {
-        int randomSpawn = Random.Range(0, droneSpawns.Count());
+        int randomSpawn = Random.Range(0, currentSpawns.Count());
         int randomDrone = Random.Range(0, drones.Count());
-        GameObject newEnemy = Instantiate(drones[randomDrone], droneSpawns[randomSpawn].position, Quaternion.identity);
+        GameObject newEnemy = Instantiate(drones[randomDrone], currentSpawns[randomSpawn].position, Quaternion.identity);
         newEnemy.GetComponent<Enemy>().player = player;
     }
 
     IEnumerator WaveSpawn() {
         yield return new WaitForSecondsRealtime(waveInterval);
-        for (int i = 0; i < waveEnemyCount[currentWave]; i++)
+        for (int i = 0; i < currentEnemies; i++)
         {
             yield return new WaitForSecondsRealtime(enemySpawnInterval);
             SpawnEnemy();

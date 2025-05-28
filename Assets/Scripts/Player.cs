@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public GameMaster gameMaster;
 
     [Header("Gun")]
+    public int damage;
     private float currentHeat;
     public float overheatThreshold;
     private bool overheated; // Check if gun is overheated
@@ -23,11 +24,21 @@ public class Player : MonoBehaviour
 
     [Header("Shield")]
     public GameObject shield;
-    public Transform cam;
+    private Transform cam;
     public Transform leftController;
     public Transform rightController;
+    public float shieldThreshold;
 
+    [Header("Audio")]
+    public AudioClip raiseShieldSFX;
+    public AudioClip lowerShieldSFX;
+    public AudioClip overheatSFX;
+    public AudioClip fireSFX;
+    public AudioClip hitSFX;
+
+    [Header("Other")]
     [SerializeField] private Transform gunOrigin;
+    public AudioMaster audioMaster;
 
     void Start()
     {
@@ -40,8 +51,9 @@ public class Player : MonoBehaviour
         {
             currentHeat -= coolingRate;
         }
+
         Vector3 cameraRelative = cam.InverseTransformPoint(leftController.position - rightController.position);
-        if (cameraRelative.x > 0)
+        if (cameraRelative.x > shieldThreshold)
         {
             RaiseShield();
         }
@@ -73,15 +85,17 @@ public class Player : MonoBehaviour
             }
             if (hit.transform.gameObject.CompareTag("Enemy"))
             {
-                hit.transform.GetComponent<Enemy>().Death();
+                hit.transform.GetComponent<Enemy>().Damage(damage);
                 gameMaster.deadEnemies += 1;
             }
             fireTimer = Time.time + fireInterval;
             currentHeat += heatPerShot;
             coolingDelayTimer = Time.time + coolingDelay;
+            // audioMaster.playPlayer(fireSFX);
             if (currentHeat > overheatThreshold)
             {
                 overheated = true;
+                // audioMaster.playPlayer(overheatSFX);
             }
         }
     }
@@ -89,10 +103,12 @@ public class Player : MonoBehaviour
     public void RaiseShield()
     {
         shield.SetActive(true);
+        // audioMaster.playPlayer(raiseShieldSFX);
     }
 
     public void LowerShield()
     {
         shield.SetActive(false);
+        // audioMaster.playPlayer(lowerShieldSFX);
     }
 }
