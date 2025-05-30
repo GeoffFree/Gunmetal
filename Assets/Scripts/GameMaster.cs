@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
 [System.Serializable]
 public struct Wave
@@ -23,6 +24,9 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private Transform player;
     [HideInInspector] public int deadEnemies;
 
+    [Header("Text")]
+    public TMP_Text waveIndicator;
+
     void FixedUpdate()
     {
         if (deadEnemies >= currentEnemies)
@@ -34,9 +38,14 @@ public class GameMaster : MonoBehaviour
 
     private void StartWave()
     {
+        if(currentWave >= waves.Count()) {
+            return;
+            // Add victory later
+        }
         currentEnemies = waves[currentWave].enemyCount;
         currentSpawns = waves[currentWave].spawnPoints;
         deadEnemies = 0;
+        waveIndicator.text = "Wave " + (currentWave + 1);
         StartCoroutine(WaveSpawn());
     }
 

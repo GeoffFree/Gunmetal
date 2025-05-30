@@ -72,7 +72,6 @@ public class Enemy : MonoBehaviour
         if (Vector3.Distance(transform.position, player.position) < attackDistance)
         {
             Vector3 direction = player.position - gunOrigin.position;
-            Debug.DrawRay(gunOrigin.position, direction);
             if (Time.time > attackTimer)
             {
                 Attack();
