@@ -28,13 +28,15 @@ public class Player : MonoBehaviour
     public Transform leftController;
     public Transform rightController;
     public float shieldThreshold;
+    private bool isShieldUp;
 
     [Header("Audio")]
+    public AudioSource shieldSource;
     public AudioClip raiseShieldSFX;
     public AudioClip lowerShieldSFX;
-    public AudioClip overheatSFX;
-    public AudioClip fireSFX;
-    public AudioClip hitSFX;
+    public AudioSource fireSource;
+    public AudioSource overheatSource;
+    public AudioSource damagedSFX;
 
     [Header("Other")]
     [SerializeField] private Transform gunOrigin;
@@ -65,8 +67,16 @@ public class Player : MonoBehaviour
 
     public void FireWeapon()
     {
+        // Don't allow firing gun if shield is up
+        if (isShieldUp)
+        {
+            return;
+        }
+
+        // If gun is overheated, can't fire
         if (overheated)
         {
+            // Only allow firing after player's gun has cooled down enough
             if (currentHeat <= coolingThreshold)
             {
                 overheated = false;
@@ -91,11 +101,11 @@ public class Player : MonoBehaviour
             fireTimer = Time.time + fireInterval;
             currentHeat += heatPerShot;
             coolingDelayTimer = Time.time + coolingDelay;
-            // audioMaster.playPlayer(fireSFX);
+            fireSource.Play();
             if (currentHeat > overheatThreshold)
             {
                 overheated = true;
-                // audioMaster.playPlayer(overheatSFX);
+                overheatSource.Play();
             }
         }
     }
@@ -103,12 +113,23 @@ public class Player : MonoBehaviour
     public void RaiseShield()
     {
         shield.SetActive(true);
-        // audioMaster.playPlayer(raiseShieldSFX);
+        shieldSource.clip = raiseShieldSFX;
+        shieldSource.Play();
     }
 
     public void LowerShield()
     {
-        shield.SetActive(false);
-        // audioMaster.playPlayer(lowerShieldSFX);
+        if (isShieldUp)
+        {
+            shield.SetActive(false);
+            shieldSource.clip = lowerShieldSFX;
+            shieldSource.Play();
+        }
+    }
+
+    public void Damaged(int damage)
+    {
+        health -= damage;
+        damagedSFX.Play();
     }
 }

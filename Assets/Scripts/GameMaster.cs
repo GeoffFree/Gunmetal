@@ -24,6 +24,12 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private Transform player;
     [HideInInspector] public int deadEnemies;
 
+    [SerializeField] private int artilleryTick;
+    [SerializeField] private int artilleryThresholdMin;
+    [SerializeField] private int artilleryThresholdMax;
+    private int currentArtilleryThreshold;
+    private float currentArtilleryLikelihood;
+
     [Header("Text")]
     public TMP_Text waveIndicator;
 
@@ -34,11 +40,23 @@ public class GameMaster : MonoBehaviour
             StartWave();
             currentWave += 1;
         }
+        else if (deadEnemies < currentEnemies * 0.8f) // Only spawn artillery if wave is less than 80% done.
+        {
+            if (currentArtilleryLikelihood > currentArtilleryThreshold)
+            {
+                SpawnArtillery();
+            }
+            else
+            {
+                currentArtilleryThreshold += artilleryTick;
+            }
+        }
     }
 
     private void StartWave()
     {
-        if(currentWave >= waves.Count()) {
+        if (currentWave >= waves.Count())
+        {
             return;
             // Add victory later
         }
@@ -47,6 +65,9 @@ public class GameMaster : MonoBehaviour
         deadEnemies = 0;
         waveIndicator.text = "Wave " + (currentWave + 1);
         StartCoroutine(WaveSpawn());
+
+        currentArtilleryLikelihood = 0;
+        currentArtilleryThreshold = Random.Range(artilleryThresholdMin, artilleryThresholdMax);
     }
 
     private void SpawnEnemy()
@@ -55,6 +76,10 @@ public class GameMaster : MonoBehaviour
         int randomDrone = Random.Range(0, drones.Count());
         GameObject newEnemy = Instantiate(drones[randomDrone], currentSpawns[randomSpawn].position, Quaternion.identity);
         newEnemy.GetComponent<Enemy>().player = player;
+    }
+
+    private void SpawnArtillery()
+    {
     }
 
     IEnumerator WaveSpawn() {

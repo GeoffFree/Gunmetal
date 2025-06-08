@@ -110,7 +110,7 @@ public class Enemy : MonoBehaviour
             return;
         }
         Debug.Log("Hit");
-        player.parent.GetComponent<Player>().health -= 1;
+        player.parent.GetComponent<Player>().Damaged(1);
         attackTimer = Time.time + attackInterval;
     }
 }

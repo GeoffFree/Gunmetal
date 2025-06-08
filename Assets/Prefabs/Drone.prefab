@@ -396,8 +396,8 @@ MonoBehaviour:
   chargingSFX: {fileID: 0}
   fireSFX: {fileID: 0}
   damageSource: {fileID: 7996786877657689420}
-  hitSFX: {fileID: 0}
-  destroyedSFX: {fileID: 0}
+  hitSFX: {fileID: 8300000, guid: 939a935a26635d647ad952dc784b4f0a, type: 3}
+  destroyedSFX: {fileID: 8300000, guid: 939a935a26635d647ad952dc784b4f0a, type: 3}
   deathTime: 0
 --- !u!1 &7606748513002456169
 GameObject:
