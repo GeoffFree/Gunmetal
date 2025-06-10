@@ -39,6 +39,9 @@ public class Enemy : MonoBehaviour
     {
         minY += transform.position.y;
         maxY += transform.position.y;
+        Vector3 targetDir = player.position - transform.position;
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, 500, 500);
+        transform.rotation = Quaternion.LookRotation(-newDir);
     }
 
     // Update is called once per frame

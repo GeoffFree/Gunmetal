@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     public int health;
     public GameMaster gameMaster;
+    public float repairInterval;
+    private float repairTimer;
 
     [Header("Gun")]
     public int damage;
@@ -29,6 +31,9 @@ public class Player : MonoBehaviour
     public Transform rightController;
     public float shieldThreshold;
     private bool isShieldUp;
+    private bool shieldDisabled;
+    private readonly float playerHeight;
+    public float artilleryBraceHeight = 0.6f;
 
     [Header("Audio")]
     public AudioSource shieldSource;
@@ -54,7 +59,18 @@ public class Player : MonoBehaviour
             currentHeat -= coolingRate;
         }
 
+        if (Time.time > repairTimer)
+        {
+            repairTimer = repairInterval + Time.time;
+            health += 1;
+        }
+
         Vector3 cameraRelative = cam.InverseTransformPoint(leftController.position - rightController.position);
+        if (shieldDisabled)
+        {
+            return;
+        }
+
         if (cameraRelative.x > shieldThreshold)
         {
             RaiseShield();
@@ -112,6 +128,7 @@ public class Player : MonoBehaviour
 
     public void RaiseShield()
     {
+        isShieldUp = true;
         shield.SetActive(true);
         shieldSource.clip = raiseShieldSFX;
         shieldSource.Play();
@@ -121,6 +138,7 @@ public class Player : MonoBehaviour
     {
         if (isShieldUp)
         {
+            isShieldUp = false;
             shield.SetActive(false);
             shieldSource.clip = lowerShieldSFX;
             shieldSource.Play();
@@ -130,6 +148,20 @@ public class Player : MonoBehaviour
     public void Damaged(int damage)
     {
         health -= damage;
+        repairTimer = Time.time + repairInterval;
         damagedSFX.Play();
+    }
+
+    public void ArtilleryHit()
+    {
+        if (transform.position.y < playerHeight * artilleryBraceHeight)
+        {
+            return;
+        }
+        else
+        {
+            shieldDisabled = true;
+            Damaged(damage);
+        }
     }
 }
