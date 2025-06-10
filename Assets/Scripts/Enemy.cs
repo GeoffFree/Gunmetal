@@ -109,10 +109,8 @@ public class Enemy : MonoBehaviour
         Physics.Raycast(gunOrigin.position, direction, out RaycastHit hit);
         if (hit.transform.CompareTag("Shield"))
         {
-            Debug.Log("Blocked");
             return;
         }
-        Debug.Log("Hit");
         player.parent.GetComponent<Player>().Damaged(1);
         attackTimer = Time.time + attackInterval;
     }

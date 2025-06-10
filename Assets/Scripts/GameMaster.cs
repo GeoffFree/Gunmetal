@@ -30,7 +30,7 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private int artilleryThresholdMin;
     [SerializeField] private int artilleryThresholdMax;
     private int currentArtilleryThreshold;
-    private float currentArtilleryLikelihood;
+    [SerializeField] private float currentArtilleryLikelihood;
     private bool hasSpawnedArtillery; // If artillery has spawned this wave
     public GameObject artillery;
     public Transform artillerySpawn;
@@ -61,7 +61,7 @@ public class GameMaster : MonoBehaviour
             }
             else
             {
-                currentArtilleryThreshold += artilleryTick;
+                currentArtilleryLikelihood += artilleryTick;
             }
         }
     }
@@ -93,9 +93,9 @@ public class GameMaster : MonoBehaviour
 
     private void SpawnArtillery()
     {
-        GameObject newArtillery = Instantiate(artillery, artillerySpawn.position, Quaternion.identity);
-        newArtillery.GetComponent<Artillery>().player = player.transform;
-        newArtillery.GetComponent<Artillery>().audioMaster = audioMaster;
+        // GameObject newArtillery = Instantiate(artillery, artillerySpawn.position, Quaternion.identity);
+        // newArtillery.GetComponent<Artillery>().player = player.transform;
+        // newArtillery.GetComponent<Artillery>().audioMaster = audioMaster;
     }
 
     IEnumerator WaveSpawn() {

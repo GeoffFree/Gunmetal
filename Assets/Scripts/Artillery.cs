@@ -12,7 +12,7 @@ public class Artillery : MonoBehaviour
 
     void Start()
     {
-        audioMaster.playArtillery(whizz);
+        // audioMaster.playArtillery(whizz);
     }
 
     void FixedUpdate()
@@ -20,9 +20,9 @@ public class Artillery : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, player.position, speed);
     }
 
-    void CollisionEnter(Collision other)
+    void OnCollisionStay(Collision other)
     {
-        audioMaster.playArtillery(explosion);
+        // audioMaster.playArtillery(explosion);
         if (other.gameObject.CompareTag("Shield"))
         {
             Destroy(this.gameObject);

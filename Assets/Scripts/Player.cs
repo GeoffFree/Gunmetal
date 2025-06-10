@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class Player : MonoBehaviour
     public float shieldThreshold;
     private bool isShieldUp;
     private bool shieldDisabled;
+    public float shieldDisableInterval;
+    private float shieldDisabledTimer;
     private readonly float playerHeight;
     public float artilleryBraceHeight = 0.6f;
 
@@ -46,17 +49,33 @@ public class Player : MonoBehaviour
     [Header("Other")]
     [SerializeField] private Transform gunOrigin;
     public AudioMaster audioMaster;
+    private Slider slider;
 
     void Start()
     {
         cam = Camera.main.transform;
     }
 
+    private float heatSliderValue() {
+        Debug.Log(currentHeat / overheatThreshold);
+        return currentHeat / overheatThreshold;
+    }
+
     public void FixedUpdate()
     {
         if (Time.time > coolingDelayTimer)
         {
-            currentHeat -= coolingRate;
+            currentHeat = coolingRate;
+            if (currentHeat < 0)
+            {
+                currentHeat = 0;
+            }
+
+            if (!slider)
+            {
+                slider = GameObject.Find("HeatSlider").GetComponent<Slider>();
+            }
+            slider.value = heatSliderValue();
         }
 
         if (Time.time > repairTimer)
@@ -68,7 +87,14 @@ public class Player : MonoBehaviour
         Vector3 cameraRelative = cam.InverseTransformPoint(leftController.position - rightController.position);
         if (shieldDisabled)
         {
-            return;
+            if (shieldDisabledTimer > Time.time)
+            {
+                shieldDisabled = false;
+            }
+            else
+            {
+                return;
+            }
         }
 
         if (cameraRelative.x > shieldThreshold)
@@ -105,15 +131,6 @@ public class Player : MonoBehaviour
 
         if (Time.time > fireTimer)
         {
-            if (!Physics.Raycast(gunOrigin.position, gunOrigin.forward, out RaycastHit hit, 100))
-            {
-                return;
-            }
-            if (hit.transform.gameObject.CompareTag("Enemy"))
-            {
-                hit.transform.GetComponent<Enemy>().Damage(damage);
-                gameMaster.deadEnemies += 1;
-            }
             fireTimer = Time.time + fireInterval;
             currentHeat += heatPerShot;
             coolingDelayTimer = Time.time + coolingDelay;
@@ -122,6 +139,19 @@ public class Player : MonoBehaviour
             {
                 overheated = true;
                 overheatSource.Play();
+            }
+
+            slider.value = heatSliderValue();
+
+            if (!Physics.Raycast(gunOrigin.position, gunOrigin.forward, out RaycastHit hit, 100))
+            {
+                return;
+            }
+            
+            if (hit.transform.gameObject.CompareTag("Enemy"))
+            {
+                hit.transform.GetComponent<Enemy>().Damage(damage);
+                gameMaster.deadEnemies += 1;
             }
         }
     }
@@ -161,6 +191,7 @@ public class Player : MonoBehaviour
         else
         {
             shieldDisabled = true;
+            shieldDisabledTimer = Time.time + shieldDisableInterval;
             Damaged(damage);
         }
     }
