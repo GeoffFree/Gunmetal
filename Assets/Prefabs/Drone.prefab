@@ -345,7 +345,10 @@ MonoBehaviour:
   damageSource: {fileID: 7996786877657689420}
   hitSFX: {fileID: 8300000, guid: 939a935a26635d647ad952dc784b4f0a, type: 3}
   destroyedSFX: {fileID: 8300000, guid: 939a935a26635d647ad952dc784b4f0a, type: 3}
-  deathTime: 0
+  droneBits:
+  - {fileID: 5051670974005957717, guid: f41165f6cea07f948b9524d50bd289c7, type: 3}
+  - {fileID: 4561298456869120776, guid: 7942124e5e5702a4d8f19557c13c0e78, type: 3}
+  - {fileID: 1384268512941201248, guid: cc1438e65ee428a4984b02875235d6af, type: 3}
 --- !u!1 &7606748513002456169
 GameObject:
   m_ObjectHideFlags: 0

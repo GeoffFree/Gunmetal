@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform gunOrigin;
 
     [Header("Movement")]
-    [HideInInspector] public Transform player; 
+    [HideInInspector] public Transform player;
     [SerializeField] private float speed = 2.0f;
     [SerializeField] private float verticalSpeed = 1.0f;
     [SerializeField] private float minY;
@@ -31,8 +31,7 @@ public class Enemy : MonoBehaviour
     public AudioClip destroyedSFX;
 
     [Header("Other")]
-    public float deathTime; // How long after death will this despawn
-    private float deathTimer;
+    public GameObject[] droneBits;
 
 
     void Start()
@@ -48,11 +47,6 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         Movement();
-
-        if (destroyed && Time.time > deathTimer)
-        {
-            Death();
-        }
     }
 
     public void Damage(int damage)
@@ -60,14 +54,13 @@ public class Enemy : MonoBehaviour
         health -= damage;
         if (health < 0)
         {
-            destroyed = true;
-            deathTimer = Time.time + deathTime;
+            foreach (GameObject bit in droneBits)
+            {
+                GameObject newBit = Instantiate(bit, transform.position, Quaternion.identity);
+                newBit.GetComponent<Rigidbody>().AddForce(Random.insideUnitSphere * 100);
+            }
+            Destroy(gameObject);
         }
-    }
-
-    private void Death()
-    {
-        Destroy(this.gameObject);
     }
 
     private void Movement()
