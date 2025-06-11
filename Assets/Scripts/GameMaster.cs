@@ -22,22 +22,22 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private float enemySpawnInterval;
     private int currentEnemies;
     [SerializeField] private GameObject[] drones;
-    [SerializeField] private Transform player;
+    [SerializeField] private Transform playerTarget;
+    [SerializeField] private Player player;
     [HideInInspector] public int deadEnemies;
 
     [Header("Artillery")]
-    [SerializeField] private int artilleryTick;
+    private int artilleryTick = 1;
     [SerializeField] private int artilleryThresholdMin;
     [SerializeField] private int artilleryThresholdMax;
     private int currentArtilleryThreshold;
-    [SerializeField] private float currentArtilleryLikelihood;
+    private float currentArtilleryLikelihood;
     private bool hasSpawnedArtillery; // If artillery has spawned this wave
     public GameObject artillery;
     public Transform artillerySpawn;
 
     [Header("Other")]
     public TMP_Text waveIndicator;
-    public TMP_Text score;
     public AudioMaster audioMaster;
 
     void FixedUpdate()
@@ -88,14 +88,14 @@ public class GameMaster : MonoBehaviour
         int randomSpawn = Random.Range(0, currentSpawns.Count());
         int randomDrone = Random.Range(0, drones.Count());
         GameObject newEnemy = Instantiate(drones[randomDrone], currentSpawns[randomSpawn].position, Quaternion.identity);
-        newEnemy.GetComponent<Enemy>().player = player;
+        newEnemy.GetComponent<Enemy>().player = playerTarget;
     }
 
     private void SpawnArtillery()
     {
-        // GameObject newArtillery = Instantiate(artillery, artillerySpawn.position, Quaternion.identity);
-        // newArtillery.GetComponent<Artillery>().player = player.transform;
-        // newArtillery.GetComponent<Artillery>().audioMaster = audioMaster;
+        GameObject newArtillery = Instantiate(artillery, artillerySpawn.position, Quaternion.identity);
+        newArtillery.GetComponent<ArtilleryShip>().player = player.GetComponent<Player>();
+        newArtillery.GetComponent<ArtilleryShip>().audioMaster = audioMaster;
     }
 
     IEnumerator WaveSpawn() {

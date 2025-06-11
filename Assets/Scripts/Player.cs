@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
 
     public float fireInterval;
     private float fireTimer;
+    private ParticleSystem gunParticle;
 
     [Header("Shield")]
     public GameObject shield;
@@ -52,6 +54,8 @@ public class Player : MonoBehaviour
     public AudioMaster audioMaster;
     private Slider slider;
     public InputDevice device;
+    private int totalKilled;
+    public TMP_Text score;
 
     void Start()
     {
@@ -75,6 +79,7 @@ public class Player : MonoBehaviour
             if (!slider)
             {
                 slider = GameObject.Find("HeatSlider").GetComponent<Slider>();
+                gunParticle = GameObject.Find("GunParticle").GetComponent<ParticleSystem>();
             }
             slider.value = heatSliderValue();
         }
@@ -136,6 +141,7 @@ public class Player : MonoBehaviour
             currentHeat += heatPerShot;
             coolingDelayTimer = Time.time + coolingDelay;
             fireSource.Play();
+            gunParticle.Play();
             if (currentHeat > overheatThreshold)
             {
                 overheated = true;
@@ -148,11 +154,13 @@ public class Player : MonoBehaviour
             {
                 return;
             }
-            
+
             if (hit.transform.gameObject.CompareTag("Enemy"))
             {
                 hit.transform.GetComponent<Enemy>().Damage(damage);
                 gameMaster.deadEnemies += 1;
+                totalKilled += 1;
+                score.text = "Score: " + totalKilled;
             }
         }
     }
@@ -185,7 +193,7 @@ public class Player : MonoBehaviour
 
     public void ArtilleryHit()
     {
-        if (transform.position.y < playerHeight * artilleryBraceHeight)
+        if (transform.position.y < playerHeight * artilleryBraceHeight && isShieldUp)
         {
             return;
         }

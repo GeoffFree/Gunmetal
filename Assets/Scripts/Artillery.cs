@@ -8,8 +8,7 @@ public class ArtilleryShip : MonoBehaviour
     public float artilleryInterval;
     private float artilleryTimer;
     private bool hasFired;
-    public Transform artilleryTransform;
-    public Transform player;
+    public Player player;
     public AudioClip explosion;
     [HideInInspector] public AudioMaster audioMaster;
 
@@ -22,21 +21,7 @@ public class ArtilleryShip : MonoBehaviour
         transform.position += transform.forward * speed;
         if (artilleryTimer > Time.time && !hasFired)
         {
-            if (Physics.Raycast(artilleryTransform.position, artilleryTransform.forward, out RaycastHit hit, 100))
-            {
-                if (hit.transform)
-                {
-                    GameObject whatWasHit = hit.transform.gameObject;
-                    if (whatWasHit.CompareTag("Shield"))
-                    {
-                        return;
-                    }
-                    else if (whatWasHit.CompareTag("Player"))
-                    {
-                        whatWasHit.GetComponent<Player>().ArtilleryHit();
-                    }
-                }
-            }
+            player.ArtilleryHit();
             hasFired = true;
         }
     }
