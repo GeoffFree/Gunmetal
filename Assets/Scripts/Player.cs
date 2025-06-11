@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class Player : MonoBehaviour
 {
@@ -28,8 +29,8 @@ public class Player : MonoBehaviour
     [Header("Shield")]
     public GameObject shield;
     private Transform cam;
-    public Transform leftController;
-    public Transform rightController;
+    public Transform leftControllerTransform;
+    public Transform rightControllerTransform;
     public float shieldThreshold;
     private bool isShieldUp;
     private bool shieldDisabled;
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform gunOrigin;
     public AudioMaster audioMaster;
     private Slider slider;
+    public InputDevice device;
 
     void Start()
     {
@@ -57,7 +59,6 @@ public class Player : MonoBehaviour
     }
 
     private float heatSliderValue() {
-        Debug.Log(currentHeat / overheatThreshold);
         return currentHeat / overheatThreshold;
     }
 
@@ -84,7 +85,7 @@ public class Player : MonoBehaviour
             health += 1;
         }
 
-        Vector3 cameraRelative = cam.InverseTransformPoint(leftController.position - rightController.position);
+        Vector3 cameraRelative = cam.InverseTransformPoint(leftControllerTransform.position - rightControllerTransform.position);
         if (shieldDisabled)
         {
             if (shieldDisabledTimer > Time.time)

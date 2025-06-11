@@ -2430,8 +2430,6 @@ MonoBehaviour:
     spawnPoints:
     - {fileID: 2043203761}
     - {fileID: 1511340115}
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 137703693}
     - {fileID: 1860781590}
   - enemyCount: 16
@@ -2440,26 +2438,16 @@ MonoBehaviour:
     - {fileID: 1511340115}
     - {fileID: 1860781590}
     - {fileID: 137703693}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
   - enemyCount: 25
     spawnPoints:
     - {fileID: 2043203761}
     - {fileID: 1511340115}
     - {fileID: 1860781590}
     - {fileID: 137703693}
-    - {fileID: 0}
-    - {fileID: 0}
   - enemyCount: 35
     spawnPoints:
     - {fileID: 2043203761}
     - {fileID: 1511340115}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 137703693}
     - {fileID: 1860781590}
     - {fileID: 732173663}
@@ -2467,7 +2455,7 @@ MonoBehaviour:
     - {fileID: 268023354}
     - {fileID: 730105011}
   waveInterval: 5
-  enemySpawnInterval: 1
+  enemySpawnInterval: 2
   drones:
   - {fileID: 6930134794943542343, guid: 64bd6bd6912310e46ada0067cadcd50b, type: 3}
   player: {fileID: 568156129}
@@ -3676,8 +3664,8 @@ MonoBehaviour:
   coolingDelay: 3
   fireInterval: 0.25
   shield: {fileID: 1464707665}
-  leftController: {fileID: 555015423}
-  rightController: {fileID: 504166523}
+  leftControllerTransform: {fileID: 555015423}
+  rightControllerTransform: {fileID: 504166523}
   shieldThreshold: 0.2
   shieldDisableInterval: 0
   artilleryBraceHeight: 0.6

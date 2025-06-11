@@ -2,35 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Artillery : MonoBehaviour
+public class ArtilleryShip : MonoBehaviour
 {
     public float speed;
+    public float artilleryInterval;
+    private float artilleryTimer;
+    private bool hasFired;
+    public Transform artilleryTransform;
     public Transform player;
-    public AudioClip whizz;
     public AudioClip explosion;
     [HideInInspector] public AudioMaster audioMaster;
 
-    void Start()
-    {
-        // audioMaster.playArtillery(whizz);
+    void Start() {
+        artilleryTimer = artilleryInterval + Time.time;
     }
 
     void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, player.position, speed);
-    }
-
-    void OnCollisionStay(Collision other)
-    {
-        // audioMaster.playArtillery(explosion);
-        if (other.gameObject.CompareTag("Shield"))
+        transform.position += transform.forward * speed;
+        if (artilleryTimer > Time.time && !hasFired)
         {
-            Destroy(this.gameObject);
-        }
-        if (other.gameObject.CompareTag("Player"))
-        {
-            player.GetComponent<Player>().ArtilleryHit();
-            Destroy(this.gameObject);
+            if (Physics.Raycast(artilleryTransform.position, artilleryTransform.forward, out RaycastHit hit, 100))
+            {
+                if (hit.transform)
+                {
+                    GameObject whatWasHit = hit.transform.gameObject;
+                    if (whatWasHit.CompareTag("Shield"))
+                    {
+                        return;
+                    }
+                    else if (whatWasHit.CompareTag("Player"))
+                    {
+                        whatWasHit.GetComponent<Player>().ArtilleryHit();
+                    }
+                }
+            }
+            hasFired = true;
         }
     }
 }
