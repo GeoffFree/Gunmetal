@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR;
 
@@ -189,6 +190,11 @@ public class Player : MonoBehaviour
         health -= damage;
         repairTimer = Time.time + repairInterval;
         damagedSFX.Play();
+
+        if (health <= 0)
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 
     public void ArtilleryHit()

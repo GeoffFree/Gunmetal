@@ -919,7 +919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f39d5613a3c8ff4bba402cf399b0a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneInterval: 0
+  nextSceneInterval: 5
   sceneToLoad: 0
 --- !u!4 &1804796989
 Transform:

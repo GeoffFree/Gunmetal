@@ -13327,32 +13327,21 @@ MonoBehaviour:
     - {fileID: 1160027323}
   - enemyCount: 16
     spawnPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 973620321}
+    - {fileID: 141468333}
   - enemyCount: 16
     spawnPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 973620321}
+    - {fileID: 141468333}
   - enemyCount: 25
     spawnPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 973620321}
+    - {fileID: 1160027323}
   - enemyCount: 35
     spawnPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 973620321}
+    - {fileID: 141468333}
+    - {fileID: 1160027323}
   waveInterval: 5
   enemySpawnInterval: 2
   drones:

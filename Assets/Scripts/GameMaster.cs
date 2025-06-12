@@ -17,6 +17,7 @@ public class GameMaster : MonoBehaviour
     [Header("Enemy Spawns")]
     public Wave[] waves;
     private int currentWave;
+    private int survivedWaves; // Worst possible solution to my issue but idc atp
     private Transform[] currentSpawns;
     [SerializeField] private float waveInterval;
     [SerializeField] private float enemySpawnInterval;
@@ -46,6 +47,7 @@ public class GameMaster : MonoBehaviour
         {
             StartWave();
             currentWave += 1;
+            survivedWaves += 1;
         }
         else if (deadEnemies < currentEnemies * 0.8f) // Only spawn artillery if wave is less than 80% done.
         {
@@ -70,7 +72,8 @@ public class GameMaster : MonoBehaviour
     {
         if (currentWave >= waves.Count())
         {
-            SceneManager.LoadScene(2);
+            currentWave -= 1; // Repeat last wave forever
+            waves[currentWave].enemyCount = Mathf.CeilToInt(waves[currentWave].enemyCount * 1.1f); // But increase enemy count
         }
         currentEnemies = waves[currentWave].enemyCount;
         currentSpawns = waves[currentWave].spawnPoints;
