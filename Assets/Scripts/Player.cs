@@ -29,6 +29,14 @@ public class Player : MonoBehaviour
     private float fireTimer;
     private ParticleSystem gunParticle;
 
+    [Header("Grenade")]
+    public int grenadeDamage;
+    public int grenadeSpeed;
+    public float grenadeInterval;
+    private float grenadeTimer;
+    public GameObject grenade;
+    public Transform grenadeOrigin;
+
     [Header("Shield")]
     public GameObject shield;
     private Transform cam;
@@ -163,6 +171,23 @@ public class Player : MonoBehaviour
                 totalKilled += 1;
                 score.text = "Score: " + totalKilled;
             }
+        }
+    }
+
+    public void FireGrenade()
+    {
+        // Don't allow firing grenade if shield is up
+        if (isShieldUp)
+        {
+            return;
+        }
+
+        if (Time.time > grenadeTimer)
+        {
+            grenadeTimer = Time.time + fireInterval;
+            fireSource.Play();
+            GameObject newGrenade = Instantiate(grenade, grenadeOrigin.position, grenadeOrigin.rotation);
+            newGrenade.GetComponent<Rigidbody>().AddForce(transform.forward * grenadeSpeed);
         }
     }
 

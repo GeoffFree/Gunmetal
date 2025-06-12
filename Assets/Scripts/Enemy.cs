@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
 {
     public int health;
     public bool destroyed;
+    public bool disabled;
+    private float disabledTimer;
 
     [Header("Attacks")]
     public float attackInterval;
@@ -48,6 +50,16 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (disabledTimer > Time.time)
+        {
+            disabled = false;
+        }
+
+        if (disabled)
+        {
+            return;
+        }
+
         Movement();
     }
 
@@ -69,7 +81,7 @@ public class Enemy : MonoBehaviour
     {
         Vector2 currentPos = new(transform.position.x, transform.position.z);
         Vector2 targetPos = new(target.position.x, target.position.z);
-        if (Vector2.Distance(currentPos, targetPos) < 0.25) 
+        if (Vector2.Distance(currentPos, targetPos) < 0.25)
         {
             if (target.childCount > 0)
             {
@@ -125,5 +137,11 @@ public class Enemy : MonoBehaviour
         }
         player.parent.GetComponent<Player>().Damaged(1);
         attackTimer = Time.time + attackInterval;
+    }
+
+    public void TurnOff()
+    {
+        disabled = true;
+        disabledTimer = Time.time + 5;
     }
 }
