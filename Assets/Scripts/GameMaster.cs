@@ -89,6 +89,8 @@ public class GameMaster : MonoBehaviour
         int randomDrone = Random.Range(0, drones.Count());
         GameObject newEnemy = Instantiate(drones[randomDrone], currentSpawns[randomSpawn].position, Quaternion.identity);
         newEnemy.GetComponent<Enemy>().player = playerTarget;
+        int randomChild = Random.Range(0, currentSpawns[randomSpawn].childCount);
+        newEnemy.GetComponent<Enemy>().target = currentSpawns[randomSpawn].GetChild(randomChild);
     }
 
     private void SpawnArtillery()

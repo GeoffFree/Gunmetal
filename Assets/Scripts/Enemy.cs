@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform gunOrigin;
 
     [Header("Movement")]
+    [HideInInspector] public Transform target;
     [HideInInspector] public Transform player;
     [SerializeField] private float speed = 2.0f;
     [SerializeField] private float verticalSpeed = 1.0f;
@@ -38,7 +40,7 @@ public class Enemy : MonoBehaviour
     {
         minY += transform.position.y;
         maxY += transform.position.y;
-        Vector3 targetDir = player.position - transform.position;
+        Vector3 targetDir = target.position - transform.position;
         Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, 500, 500);
         transform.rotation = Quaternion.LookRotation(-newDir);
     }
@@ -52,12 +54,12 @@ public class Enemy : MonoBehaviour
     public void Damage(int damage)
     {
         health -= damage;
-        if (health < 0)
+        if (health <= 0)
         {
             foreach (GameObject bit in droneBits)
             {
-                GameObject newBit = Instantiate(bit, transform.position, Quaternion.identity);
-                newBit.GetComponent<Rigidbody>().AddForce(Random.insideUnitSphere * 100);
+                GameObject newBit = Instantiate(bit, transform.position, transform.rotation);
+                newBit.GetComponent<Rigidbody>().AddForce(UnityEngine.Random.insideUnitSphere * 100);
             }
             Destroy(gameObject);
         }
@@ -65,9 +67,26 @@ public class Enemy : MonoBehaviour
 
     private void Movement()
     {
+        Vector2 currentPos = new(transform.position.x, transform.position.z);
+        Vector2 targetPos = new(target.position.x, target.position.z);
+        if (Vector2.Distance(currentPos, targetPos) < 0.25) 
+        {
+            if (target.childCount > 0)
+            {
+                int randomChild = UnityEngine.Random.Range(0, target.childCount);
+                target = target.GetChild(randomChild);
+            }
+            else
+            {
+                target = player;
+            }
+            Vector3 targetDir = target.position - transform.position;
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, 500, 500);
+            transform.rotation = Quaternion.LookRotation(-newDir);
+        }
+
         if (Vector3.Distance(transform.position, player.position) < attackDistance)
         {
-            Vector3 direction = player.position - gunOrigin.position;
             if (Time.time > attackTimer)
             {
                 Attack();
@@ -75,12 +94,12 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            transform.position += Time.deltaTime * transform.forward * speed;
+            transform.position += speed * Time.deltaTime * transform.forward;
         }
 
         if (movingUp)
         {
-            transform.position += Time.deltaTime * transform.up * verticalSpeed;
+            transform.position += Time.deltaTime * verticalSpeed * transform.up;
             if (transform.position.y > maxY)
             {
                 movingUp = false;
@@ -88,7 +107,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            transform.position += Time.deltaTime * transform.up * -verticalSpeed;
+            transform.position += -verticalSpeed * Time.deltaTime * transform.up;
             if (transform.position.y < minY)
             {
                 movingUp = true;
