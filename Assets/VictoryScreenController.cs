@@ -9,4 +9,9 @@ public class VictoryScreenController : MonoBehaviour
     {
         SceneManager.LoadScene(scene);
     }
+
+    public void EndGame()
+    {
+        Application.Quit();
+    }
 }

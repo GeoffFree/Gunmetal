@@ -1,14 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class SaveData : MonoBehaviour
+public static class SaveData
 {
-    public int wavesSurvived;
-    public int totalScore;
-
-    void Start()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
+    public static int wavesSurvived;
+    public static int totalScore;
 }

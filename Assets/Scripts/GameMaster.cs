@@ -17,7 +17,7 @@ public class GameMaster : MonoBehaviour
     [Header("Enemy Spawns")]
     public Wave[] waves;
     private int currentWave;
-    private int survivedWaves; // Worst possible solution to my issue but idc atp
+    private int survivedWaves = -1; // Worst possible solution to my issue but idc atp
     private Transform[] currentSpawns;
     [SerializeField] private float waveInterval;
     [SerializeField] private float enemySpawnInterval;
@@ -49,6 +49,7 @@ public class GameMaster : MonoBehaviour
             StartWave();
             currentWave += 1;
             survivedWaves += 1;
+            SaveData.wavesSurvived = survivedWaves;
         }
         else if (deadEnemies < currentEnemies * 0.8f) // Only spawn artillery if wave is less than 80% done.
         {
@@ -79,7 +80,7 @@ public class GameMaster : MonoBehaviour
         currentEnemies = waves[currentWave].enemyCount;
         currentSpawns = waves[currentWave].spawnPoints;
         deadEnemies = 0;
-        waveIndicator.text = "Wave " + (currentWave + 1);
+        waveIndicator.text = "Wave " + (survivedWaves + 2);
         StartCoroutine(WaveSpawn());
 
         currentArtilleryLikelihood = 0;

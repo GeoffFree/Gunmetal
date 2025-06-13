@@ -72,12 +72,6 @@ public class Player : MonoBehaviour
     public TMP_Text healthText;
     public TMP_Text braceText;
     public GameObject shieldDown;
-    private SaveData saveData;
-
-    void Awake()
-    {
-        saveData = GameObject.Find("SaveData").GetComponent<SaveData>();
-    }
 
     void Start()
     {
@@ -250,6 +244,13 @@ public class Player : MonoBehaviour
 
     public void Damaged(int damage)
     {
+        if (damage == 1)
+        {
+            if (isShieldUp)
+            {
+                return;
+            }
+        }
         health -= damage;
         repairTimer = Time.time + repairInterval;
         damagedSFX.Play();
@@ -257,8 +258,8 @@ public class Player : MonoBehaviour
 
         if (health <= 0)
         {
-            saveData.totalScore = totalKilled;
-            SceneManager.LoadScene(2);
+            SaveData.totalScore = totalKilled;
+            SceneManager.LoadScene(3);
         }
     }
 
@@ -276,7 +277,7 @@ public class Player : MonoBehaviour
             shieldDisabledTimer = Time.time + shieldDisableInterval;
             LowerShield();
             shieldDown.SetActive(true);
-            Damaged(5);
+            Damaged(3);
         }
     }
 }

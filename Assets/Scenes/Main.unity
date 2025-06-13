@@ -13706,8 +13706,8 @@ MonoBehaviour:
   playerTarget: {fileID: 568156129}
   player: {fileID: 1411069722}
   deadEnemies: 0
-  artilleryThresholdMin: 1200
-  artilleryThresholdMax: 1800
+  artilleryThresholdMin: 900
+  artilleryThresholdMax: 1200
   artillery: {fileID: 875321280622875189, guid: b23bc6f971feb614e9ed2b464638ba5b,
     type: 3}
   artillerySpawn: {fileID: 281482299}
@@ -27722,7 +27722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ece47611c572654198c0770c530872c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 5
   gameMaster: {fileID: 670098650}
   repairInterval: 10
   damage: 5
@@ -27742,9 +27742,9 @@ MonoBehaviour:
   shield: {fileID: 1464707665}
   leftControllerTransform: {fileID: 555015423}
   rightControllerTransform: {fileID: 504166523}
-  shieldThreshold: 0.2
+  shieldThreshold: 0.15
   shieldDisableInterval: 5
-  artilleryBraceHeight: 0.8
+  artilleryBraceHeight: 0.9
   shieldSource: {fileID: 1039390636}
   raiseShieldSFX: {fileID: 8300000, guid: 150cd62136d278c469f3cda10db00513, type: 3}
   lowerShieldSFX: {fileID: 8300000, guid: 6246e4e5c20b4cd4e8789f5194dfe8ca, type: 3}
@@ -35725,52 +35725,6 @@ Transform:
   - {fileID: 308887179}
   m_Father: {fileID: 949331228}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1900856763
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1900856765}
-  - component: {fileID: 1900856764}
-  m_Layer: 0
-  m_Name: SaveData
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1900856764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900856763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad1524e78e122ef46984903c46016af2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wavesSurvived: 0
-  totalScore: 0
---- !u!4 &1900856765
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900856763}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.603, y: 0.3606, z: 1.68}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1901430111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40436,4 +40390,3 @@ SceneRoots:
   - {fileID: 1316858612}
   - {fileID: 1283487943}
   - {fileID: 281482299}
-  - {fileID: 1900856765}
