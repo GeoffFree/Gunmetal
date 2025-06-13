@@ -5101,7 +5101,6 @@ GameObject:
   - component: {fileID: 4155123142093086197}
   - component: {fileID: 3086336690528273336}
   - component: {fileID: 8318477584885963201}
-  - component: {fileID: -6453290309479905138}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Enemy
@@ -5170,10 +5169,10 @@ MonoBehaviour:
   gunOrigin: {fileID: 4155123142093086197}
   target: {fileID: 0}
   player: {fileID: 0}
-  speed: -0.5
+  speed: -0.8
   verticalSpeed: 0.25
   minY: 0
-  maxY: 0.75
+  maxY: 0.5
   ambientSource: {fileID: 1472155604159931918}
   generalSource: {fileID: 1344781890101242989}
   chargingSFX: {fileID: 0}
@@ -5186,33 +5185,6 @@ MonoBehaviour:
   - {fileID: 4561298456869120776, guid: 7942124e5e5702a4d8f19557c13c0e78, type: 3}
   - {fileID: 1384268512941201248, guid: cc1438e65ee428a4984b02875235d6af, type: 3}
   disabledParticles: {fileID: 740956882505062119}
---- !u!54 &-6453290309479905138
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6930134794943542343}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &7606748513002456169
 GameObject:
   m_ObjectHideFlags: 0

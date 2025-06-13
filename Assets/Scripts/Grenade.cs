@@ -14,7 +14,6 @@ public class Grenade : MonoBehaviour
     {
         if (grenadeTimer < Time.time)
         {
-            Debug.Log("Remember me!");
             Destroy(gameObject);
         }
     }
@@ -25,7 +24,7 @@ public class Grenade : MonoBehaviour
         {
             return;
         }
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 500f);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 2f);
         foreach (Collider collider in colliders)
         {
             if (collider.GetComponent<Enemy>())
@@ -34,6 +33,7 @@ public class Grenade : MonoBehaviour
             }
         }
         detonated = true;
+        grenadeTimer = grenadeDestroyDelay + Time.time;
         partSys.Play();
     }
 }

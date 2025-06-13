@@ -6,7 +6,6 @@ using UnityEngine;
 public class Bomb : MonoBehaviour
 {
     public Player player;
-    public AudioSource whizz;
     public AudioMaster audioMaster;
     public AudioClip explosion;
     public GameObject brace;

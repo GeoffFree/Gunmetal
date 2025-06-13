@@ -71,6 +71,13 @@ public class Player : MonoBehaviour
     public TMP_Text score;
     public TMP_Text healthText;
     public TMP_Text braceText;
+    public GameObject shieldDown;
+    private SaveData saveData;
+
+    void Awake()
+    {
+        saveData = GameObject.Find("SaveData").GetComponent<SaveData>();
+    }
 
     void Start()
     {
@@ -128,8 +135,9 @@ public class Player : MonoBehaviour
         Vector3 cameraRelative = cam.InverseTransformPoint(leftControllerTransform.position - rightControllerTransform.position);
         if (shieldDisabled)
         {
-            if (shieldDisabledTimer > Time.time)
+            if (shieldDisabledTimer < Time.time)
             {
+                shieldDown.SetActive(false);
                 shieldDisabled = false;
             }
             else
@@ -172,6 +180,7 @@ public class Player : MonoBehaviour
 
         if (Time.time > fireTimer)
         {
+            rightController.SendHapticImpulse(0.25f, 0.1f);
             fireTimer = Time.time + fireInterval;
             currentHeat += heatPerShot;
             coolingDelayTimer = Time.time + coolingDelay;
@@ -195,7 +204,6 @@ public class Player : MonoBehaviour
                 hit.transform.GetComponent<Enemy>().Damage(damage);
                 gameMaster.deadEnemies += 1;
                 totalKilled += 1;
-                score.text = "Score: " + totalKilled;
             }
         }
     }
@@ -210,6 +218,7 @@ public class Player : MonoBehaviour
 
         if (Time.time > grenadeTimer)
         {
+            leftController.SendHapticImpulse(0.5f, 0.1f);
             grenadeTimer = Time.time + grenadeInterval;
             fireSource.Play();
             GameObject newGrenade = Instantiate(grenade, grenadeOrigin.position, grenadeOrigin.rotation);
@@ -248,13 +257,16 @@ public class Player : MonoBehaviour
 
         if (health <= 0)
         {
+            saveData.totalScore = totalKilled;
             SceneManager.LoadScene(2);
         }
     }
 
     public void ArtilleryHit()
     {
-        if (transform.position.y < playerHeight * artilleryBraceHeight && isShieldUp)
+        rightController.SendHapticImpulse(1f, 0.8f);
+        leftController.SendHapticImpulse(1f, 0.8f);
+        if (cam.position.y < playerHeight * artilleryBraceHeight && isShieldUp)
         {
             return;
         }
@@ -262,7 +274,9 @@ public class Player : MonoBehaviour
         {
             shieldDisabled = true;
             shieldDisabledTimer = Time.time + shieldDisableInterval;
-            Damaged(3);
+            LowerShield();
+            shieldDown.SetActive(true);
+            Damaged(5);
         }
     }
 }

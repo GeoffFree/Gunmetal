@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (disabledTimer > Time.time)
+        if (disabledTimer < Time.time)
         {
             disabledParticles.Stop();
             disabled = false;
@@ -58,7 +58,6 @@ public class Enemy : MonoBehaviour
 
         if (disabled)
         {
-            disabledParticles.Play();
             return;
         }
 
@@ -146,6 +145,7 @@ public class Enemy : MonoBehaviour
     public void TurnOff()
     {
         disabled = true;
-        disabledTimer = Time.time + 5;
+        disabledTimer = Time.time + 3;
+        disabledParticles.Play();
     }
 }

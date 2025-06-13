@@ -99,7 +99,7 @@ public class GameMaster : MonoBehaviour
 
     private void SpawnArtillery()
     {
-        GameObject newArtillery = Instantiate(artillery, artillerySpawn.position, Quaternion.identity);
+        GameObject newArtillery = Instantiate(artillery, artillerySpawn.position, artillerySpawn.rotation);
         newArtillery.GetComponent<Bomb>().player = player.GetComponent<Player>();
         newArtillery.GetComponent<Bomb>().audioMaster = audioMaster;
         newArtillery.GetComponent<Bomb>().brace = brace;
