@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Other")]
     public GameObject[] droneBits;
-
+    public ParticleSystem disabledParticles;
 
     void Start()
     {
@@ -52,11 +52,13 @@ public class Enemy : MonoBehaviour
     {
         if (disabledTimer > Time.time)
         {
+            disabledParticles.Stop();
             disabled = false;
         }
 
         if (disabled)
         {
+            disabledParticles.Play();
             return;
         }
 
@@ -66,6 +68,8 @@ public class Enemy : MonoBehaviour
     public void Damage(int damage)
     {
         health -= damage;
+        damageSource.clip = hitSFX;
+        damageSource.Play();
         if (health <= 0)
         {
             foreach (GameObject bit in droneBits)

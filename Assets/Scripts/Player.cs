@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Player : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class Player : MonoBehaviour
     private float fireTimer;
     private ParticleSystem gunParticle;
 
+    public ActionBasedController rightController;
+
     [Header("Grenade")]
     public int grenadeDamage;
     public int grenadeSpeed;
@@ -36,6 +39,7 @@ public class Player : MonoBehaviour
     private float grenadeTimer;
     public GameObject grenade;
     public Transform grenadeOrigin;
+    public ActionBasedController leftController;
 
     [Header("Shield")]
     public GameObject shield;
@@ -65,6 +69,7 @@ public class Player : MonoBehaviour
     public InputDevice device;
     private int totalKilled;
     public TMP_Text score;
+    public TMP_Text healthText;
 
     void Start()
     {
@@ -77,9 +82,18 @@ public class Player : MonoBehaviour
 
     public void FixedUpdate()
     {
+        if (leftController.activateActionValue.action.IsPressed())
+        {
+            FireGrenade();
+        }
+        if (rightController.activateActionValue.action.IsPressed())
+        {
+            FireWeapon();
+        }
+
         if (Time.time > coolingDelayTimer)
         {
-            currentHeat = coolingRate;
+            currentHeat -= coolingRate;
             if (currentHeat < 0)
             {
                 currentHeat = 0;
@@ -97,6 +111,7 @@ public class Player : MonoBehaviour
         {
             repairTimer = repairInterval + Time.time;
             health += 1;
+            healthText.text = health.ToString();
         }
 
         Vector3 cameraRelative = cam.InverseTransformPoint(leftControllerTransform.position - rightControllerTransform.position);
@@ -151,7 +166,7 @@ public class Player : MonoBehaviour
             coolingDelayTimer = Time.time + coolingDelay;
             fireSource.Play();
             gunParticle.Play();
-            if (currentHeat > overheatThreshold)
+            if (currentHeat >= overheatThreshold)
             {
                 overheated = true;
                 overheatSource.Play();
@@ -193,10 +208,13 @@ public class Player : MonoBehaviour
 
     public void RaiseShield()
     {
-        isShieldUp = true;
-        shield.SetActive(true);
-        shieldSource.clip = raiseShieldSFX;
-        shieldSource.Play();
+        if (!isShieldUp)
+        {
+            isShieldUp = true;
+            shield.SetActive(true);
+            shieldSource.clip = raiseShieldSFX;
+            shieldSource.Play();
+        }
     }
 
     public void LowerShield()
@@ -215,6 +233,7 @@ public class Player : MonoBehaviour
         health -= damage;
         repairTimer = Time.time + repairInterval;
         damagedSFX.Play();
+        healthText.text = health.ToString();
 
         if (health <= 0)
         {

@@ -6,7 +6,7 @@ public class Grenade : MonoBehaviour
 {
     public void OnCollisionEnter(Collision other)
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 1);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 1.5f);
         foreach (Collider collider in colliders)
         {
             if (collider.GetComponent<Enemy>())
