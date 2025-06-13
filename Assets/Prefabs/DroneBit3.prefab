@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2900904867613536932}
   - component: {fileID: 2140965369091872385}
   - component: {fileID: -3860089665197400713}
-  - component: {fileID: 6796295479055915901}
   - component: {fileID: -6671249832405648671}
+  - component: {fileID: 3981587497028028729}
   m_Layer: 0
   m_Name: DroneBit3
   m_TagString: Untagged
@@ -115,8 +115,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &6796295479055915901
-MeshCollider:
+--- !u!114 &-6671249832405648671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384268512941201248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19768948de1de244a2a18c3d8e6f40b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyInterval: 5
+--- !u!65 &3981587497028028729
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -133,20 +146,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1550514412580984892, guid: 300915f055bdace478638c5bde4c51f6, type: 3}
---- !u!114 &-6671249832405648671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1384268512941201248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19768948de1de244a2a18c3d8e6f40b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destroyInterval: 5
+  serializedVersion: 3
+  m_Size: {x: 0.009967376, y: 0.053541414, z: 0.032128844}
+  m_Center: {x: -0.0019135195, y: -1.09410915e-17, z: -0.0015398215}

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4258700922562530107}
   - component: {fileID: 5999608120938761643}
   - component: {fileID: 934644074148084066}
-  - component: {fileID: 1990008076019064000}
   - component: {fileID: 9176262157805836656}
+  - component: {fileID: 945374631179672895}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
@@ -49,6 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61f6342ce10a844eb1fe860bde79ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grenadeDestroyDelay: 5
+  partSys: {fileID: 3957421168164226640}
 --- !u!23 &5999608120938761643
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -101,28 +103,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4060800223781428513}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &1990008076019064000
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4060800223781428513}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!54 &9176262157805836656
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -150,6 +130,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &945374631179672895
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4060800223781428513}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.49999997
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9082141279659874236
 GameObject:
   m_ObjectHideFlags: 0
@@ -4929,7 +4930,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: -6629797300637803691, guid: 300915f055bdace478638c5bde4c51f6, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

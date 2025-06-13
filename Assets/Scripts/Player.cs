@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
     private bool shieldDisabled;
     public float shieldDisableInterval;
     private float shieldDisabledTimer;
-    private readonly float playerHeight;
+    private float playerHeight;
     public float artilleryBraceHeight = 0.6f;
 
     [Header("Audio")]
@@ -70,13 +70,15 @@ public class Player : MonoBehaviour
     private int totalKilled;
     public TMP_Text score;
     public TMP_Text healthText;
+    public TMP_Text braceText;
 
     void Start()
     {
         cam = Camera.main.transform;
+        playerHeight = cam.position.y;
     }
 
-    private float heatSliderValue() {
+    private float HeatSliderValue() {
         return currentHeat / overheatThreshold;
     }
 
@@ -89,6 +91,11 @@ public class Player : MonoBehaviour
         if (rightController.activateActionValue.action.IsPressed())
         {
             FireWeapon();
+        }
+
+        if (cam.position.y > playerHeight)
+        {
+            playerHeight = cam.position.y;
         }
 
         if (Time.time > coolingDelayTimer)
@@ -104,14 +111,18 @@ public class Player : MonoBehaviour
                 slider = GameObject.Find("HeatSlider").GetComponent<Slider>();
                 gunParticle = GameObject.Find("GunParticle").GetComponent<ParticleSystem>();
             }
-            slider.value = heatSliderValue();
+            slider.value = HeatSliderValue();
         }
 
         if (Time.time > repairTimer)
         {
             repairTimer = repairInterval + Time.time;
             health += 1;
-            healthText.text = health.ToString();
+            if (health > 5)
+            {
+                health = 5;
+            }
+            healthText.text = "Health: " + health.ToString();
         }
 
         Vector3 cameraRelative = cam.InverseTransformPoint(leftControllerTransform.position - rightControllerTransform.position);
@@ -172,7 +183,7 @@ public class Player : MonoBehaviour
                 overheatSource.Play();
             }
 
-            slider.value = heatSliderValue();
+            slider.value = HeatSliderValue();
 
             if (!Physics.Raycast(gunOrigin.position, gunOrigin.forward, out RaycastHit hit, 100))
             {
@@ -199,10 +210,10 @@ public class Player : MonoBehaviour
 
         if (Time.time > grenadeTimer)
         {
-            grenadeTimer = Time.time + fireInterval;
+            grenadeTimer = Time.time + grenadeInterval;
             fireSource.Play();
             GameObject newGrenade = Instantiate(grenade, grenadeOrigin.position, grenadeOrigin.rotation);
-            newGrenade.GetComponent<Rigidbody>().AddForce(transform.forward * grenadeSpeed);
+            newGrenade.GetComponent<Rigidbody>().AddForce(grenadeOrigin.forward * grenadeSpeed);
         }
     }
 
@@ -233,7 +244,7 @@ public class Player : MonoBehaviour
         health -= damage;
         repairTimer = Time.time + repairInterval;
         damagedSFX.Play();
-        healthText.text = health.ToString();
+        healthText.text = "Health: " + health.ToString();
 
         if (health <= 0)
         {
@@ -251,7 +262,7 @@ public class Player : MonoBehaviour
         {
             shieldDisabled = true;
             shieldDisabledTimer = Time.time + shieldDisableInterval;
-            Damaged(damage);
+            Damaged(3);
         }
     }
 }

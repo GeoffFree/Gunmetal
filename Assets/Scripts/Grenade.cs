@@ -4,9 +4,28 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
+
+    private bool detonated;
+    public float grenadeDestroyDelay;
+    private float grenadeTimer = 100000;
+    public ParticleSystem partSys;
+
+    void Update()
+    {
+        if (grenadeTimer < Time.time)
+        {
+            Debug.Log("Remember me!");
+            Destroy(gameObject);
+        }
+    }
+
     public void OnCollisionEnter(Collision other)
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 1.5f);
+        if (detonated)
+        {
+            return;
+        }
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 500f);
         foreach (Collider collider in colliders)
         {
             if (collider.GetComponent<Enemy>())
@@ -14,6 +33,7 @@ public class Grenade : MonoBehaviour
                 collider.GetComponent<Enemy>().TurnOff();
             }
         }
-        Destroy(gameObject);
+        detonated = true;
+        partSys.Play();
     }
 }

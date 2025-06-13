@@ -40,6 +40,7 @@ public class GameMaster : MonoBehaviour
     [Header("Other")]
     public TMP_Text waveIndicator;
     public AudioMaster audioMaster;
+    public GameObject brace;
 
     void FixedUpdate()
     {
@@ -99,8 +100,10 @@ public class GameMaster : MonoBehaviour
     private void SpawnArtillery()
     {
         GameObject newArtillery = Instantiate(artillery, artillerySpawn.position, Quaternion.identity);
-        newArtillery.GetComponent<ArtilleryShip>().player = player.GetComponent<Player>();
-        newArtillery.GetComponent<ArtilleryShip>().audioMaster = audioMaster;
+        newArtillery.GetComponent<Bomb>().player = player.GetComponent<Player>();
+        newArtillery.GetComponent<Bomb>().audioMaster = audioMaster;
+        newArtillery.GetComponent<Bomb>().brace = brace;
+        brace.SetActive(true);
     }
 
     IEnumerator WaveSpawn() {

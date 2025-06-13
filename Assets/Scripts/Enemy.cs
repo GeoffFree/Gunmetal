@@ -68,8 +68,6 @@ public class Enemy : MonoBehaviour
     public void Damage(int damage)
     {
         health -= damage;
-        damageSource.clip = hitSFX;
-        damageSource.Play();
         if (health <= 0)
         {
             foreach (GameObject bit in droneBits)
@@ -137,6 +135,8 @@ public class Enemy : MonoBehaviour
         Physics.Raycast(gunOrigin.position, direction, out RaycastHit hit);
         if (hit.transform.CompareTag("Shield"))
         {
+            generalSource.clip = fireSFX;
+            generalSource.Play();
             return;
         }
         player.parent.GetComponent<Player>().Damaged(1);

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bits : MonoBehaviour
 {
     public float destroyInterval;
-    private float destroyTimer;
+    private float destroyTimer = 100000;
 
     void OnCollisionEnter(Collision collision)
     {
@@ -14,7 +14,7 @@ public class Bits : MonoBehaviour
 
     void Update()
     {
-        if (destroyTimer > Time.time)
+        if (destroyTimer < Time.time)
         {
             Destroy(gameObject);
         }
